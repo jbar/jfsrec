@@ -1,11 +1,13 @@
-AC_INIT(configure.in)
+AC_INIT([jfsrec], [0.2])
 
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(jfsrec, 0.1)
+AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
-AM_PROG_LIBTOOL
+dnl AM_PROG_LIBTOOL
+
+AM_CONFIG_HEADER([config.h])
+AC_CONFIG_FILES([Makefile src/Makefile])
 
 AC_CHECK_HEADERS(boost/progress.hpp)
 
