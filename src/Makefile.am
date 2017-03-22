@@ -4,7 +4,7 @@ jfsrec_SOURCES = jfsrec.cpp options.cpp inodevector.cpp inode.cpp dirinode.cpp \
 	unicode_to_utf8.cpp unallocatedinode.cpp symlinkinode.cpp specialinode.cpp
 
 # set the include path found by configure
-INCLUDES= $(all_includes)
+AM_CPPFLAGS= $(all_includes)
 
 # the library search path.
 jfsrec_LDFLAGS = $(all_libraries) 

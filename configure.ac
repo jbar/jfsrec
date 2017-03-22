@@ -37,4 +37,4 @@ then
 	AC_MSG_ERROR([Error, boost/program_options.hpp header is missing!])
 fi
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT
