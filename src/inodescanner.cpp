@@ -36,7 +36,7 @@ uint64_t InodeScanner :: restore(){
 	create_directories(options.get_progress_dir());
 	path pfn = options.get_progress_dir()/"inoscan.txt";
 	progress_file_.open(pfn.string().c_str(),ios::in);
-	if (progress_file_ == NULL){
+	if ( ! progress_file_ ){
 		cout<<"No progress file found, starting from byte 0"<<endl;
 		progress_file_.close();
 		progress_file_.open(pfn.string().c_str(),ios::out);
@@ -144,7 +144,7 @@ void InodeScanner :: scan(){
 	boost::filesystem::ifstream f;
 	fn = options.get_progress_dir()/"post-remove_dupes.txt";
 	f.open(fn,ios::in);
-	if (f != NULL){
+	if (f){
 		f.close();
 		cout << "Skipping scan."<<endl;
 		inovec_.load_from_positions(fn);
@@ -154,7 +154,7 @@ void InodeScanner :: scan(){
 
 	fn = options.get_progress_dir()/"post-remove_unallocated.txt";
 	f.open(fn,ios::in);
-	if (f != NULL){
+	if (f){
 		f.close();
 		cout << "Skipping to remove duplicates."<<endl;
 		inovec_.load_from_positions(fn);
@@ -164,7 +164,7 @@ void InodeScanner :: scan(){
 
 	fn = options.get_progress_dir()/"post-extentscan.txt";
 	f.open(fn,ios::in);
-	if (f != NULL){
+	if (f){
 		f.close();
 		cout << "Skipping to remove unallocated."<<endl;
 		inovec_.load_from_positions(fn);
@@ -174,7 +174,7 @@ void InodeScanner :: scan(){
 
 	fn = options.get_progress_dir()/"post-scan.txt";
 	f.open(fn,ios::in);
-	if (f != NULL){
+	if (f){
 		f.close();
 // 		cout << "Skipping to extent scan."<<endl;
 		cout << "Skipping to inostamp scan."<<endl;
