@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include "unicode_to_utf8.h"
+#include <string.h>
 #define JFS_PATH_MAX 4096
 
 /*

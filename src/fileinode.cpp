@@ -38,11 +38,11 @@ void FileInode :: recover(){
 	//TODO: Check below. Not really sure that the date-check works.
 	if ( (exists(p)) && ((file_size(p)==get_dinode()->di_size) || (last_write_time(p) > get_dinode()->di_otime.tv_sec))){
 		++skipped;
-		cout <<endl<<endl<<"Skipping "<<di_number_<<": "<<p.native_file_string()<<endl;
+		cout <<endl<<endl<<"Skipping "<<di_number_<<": "<<p.string()<<endl;
 		
 	}else{
 		++saved;
-		cout <<endl<<endl<<"Saving   "<<di_number_<<": "<<p.native_file_string()<<endl;
+		cout <<endl<<endl<<"Saving   "<<di_number_<<": "<<p.string()<<endl;
 
 		save_file();
 
@@ -176,7 +176,7 @@ void FileInode :: get_internal_xads(xad_t * xad, short nextindex, vector<xad_t>&
 
 void FileInode :: save_file() throw(filesystem_error,invalid_read_exception){
 	
-	string fn = get_full_path().native_file_string(); 
+	string fn = get_full_path().string();
 	FILE* file;	
 	try{
 

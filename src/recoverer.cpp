@@ -52,14 +52,14 @@ deque<Inode*> Recoverer :: generate_prio_queue(){
 		progress_display pd(inovec_.size());
 		for (uint32_t i=0;i<inovec_.size();++i){
 			++pd;	
-			if (regex_search(inovec_[i].get_full_path().native_file_string(),options.get_exclude())) {
+			if (regex_search(inovec_[i].get_full_path().string(),options.get_exclude())) {
 // 				cout << "Matched exclude regex!!!"<<endl;
 			}else{
-				if ((options.get_first_speced() && regex_search(inovec_[i].get_full_path().native_file_string(),options.get_first()))){
+				if ((options.get_first_speced() && regex_search(inovec_[i].get_full_path().string(),options.get_first()))){
 					first.push_back(&inovec_[i]);
 					continue;
 				}
-				if (options.get_last_speced() && (regex_search(inovec_[i].get_full_path().native_file_string(),options.get_last()))){
+				if (options.get_last_speced() && (regex_search(inovec_[i].get_full_path().string(),options.get_last()))){
 					last.push_back(&inovec_[i]);
 					continue;
 				}
@@ -71,12 +71,12 @@ deque<Inode*> Recoverer :: generate_prio_queue(){
 		progress_display pd(inovec_.size());
 		for (uint32_t i=0;i<inovec_.size();++i){
 			++pd;
-// 			cout <<"matching:"<< inovec_[i].get_full_path().native_file_string()<<endl;
-			if ((options.get_first_speced() && regex_search(inovec_[i].get_full_path().native_file_string(),options.get_first()))){
+// 			cout <<"matching:"<< inovec_[i].get_full_path().string()<<endl;
+			if ((options.get_first_speced() && regex_search(inovec_[i].get_full_path().string(),options.get_first()))){
 				first.push_back(&inovec_[i]);
 				continue;
 			}
-			if (options.get_last_speced() && (regex_search(inovec_[i].get_full_path().native_file_string(),options.get_last()))){
+			if (options.get_last_speced() && (regex_search(inovec_[i].get_full_path().string(),options.get_last()))){
 				last.push_back(&inovec_[i]);
 				continue;
 			}

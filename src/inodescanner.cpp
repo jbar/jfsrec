@@ -35,11 +35,11 @@ InodeScanner :: InodeScanner(InodeVector& inovec):chunk_blocks_(1<<15),inovec_(i
 uint64_t InodeScanner :: restore(){
 	create_directories(options.get_progress_dir());
 	path pfn = options.get_progress_dir()/"inoscan.txt";
-	progress_file_.open(pfn.native_file_string().c_str(),ios::in);
+	progress_file_.open(pfn.string().c_str(),ios::in);
 	if (progress_file_ == NULL){
 		cout<<"No progress file found, starting from byte 0"<<endl;
 		progress_file_.close();
-		progress_file_.open(pfn.native_file_string().c_str(),ios::out);
+		progress_file_.open(pfn.string().c_str(),ios::out);
 		return 0;
 	}
 	cout << "Found progress file..."<<flush;
@@ -51,7 +51,7 @@ uint64_t InodeScanner :: restore(){
 		inovec_.add_inode(i);
 	}
 	progress_file_.close();
-	progress_file_.open(pfn.native_file_string().c_str(),ios::out|ios::app);
+	progress_file_.open(pfn.string().c_str(),ios::out|ios::app);
 	cout << " restarting at "<<((bo+inode_size_)>>20)<<"Mb"<<endl;
 	return bo+inode_size_;
 }

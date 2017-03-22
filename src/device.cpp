@@ -20,6 +20,7 @@
 //Parts of the code in this file was originally taken from JFS's xpeek (debugfs_jfs)
 
 #include "device.h"
+#include <stdio.h>
 #ifdef __linux__
  #include <linux/fs.h>
  #include <sys/ioctl.h>
@@ -55,15 +56,15 @@ void Device :: open(const path & name, uint16_t blocksize){
 
 
 	blocksize_=blocksize;
-	file_ = fopen64(name.native_file_string().c_str(), "r");
+	file_ = fopen64(name.string().c_str(), "r");
 	if (file_ == NULL) {
-		cerr << "Error: Cannot open device: '"<<name.native_file_string()<<"'"<<endl;
+		cerr << "Error: Cannot open device: '"<<name.string()<<"'"<<endl;
 		exit(1);
 	}
 	struct stat64 stat_data;
    int r;
 	if ((r=fstat64(fileno(file_), &stat_data))!=0){
-		cerr<< "Error: cannot stat device: '"<<name.native_file_string()<<"'"<<" "<<r<<endl;		
+		cerr<< "Error: cannot stat device: '"<<name.string()<<"'"<<" "<<r<<endl;
 		exit(1);
 	}
 	
@@ -82,7 +83,7 @@ void Device :: open(const path & name, uint16_t blocksize){
 	}
 	fssize_ = get_size_bytes();
 
-	cout << "Opened device: "<<name.native_file_string()<<endl;
+	cout << "Opened device: "<<name.string()<<endl;
 // 	cout << "  Size in blocks: "<<(fssize_>>log2blocksize)<<endl;
 	cout << bytes_suffixed(fssize_);
 	

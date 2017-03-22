@@ -67,9 +67,9 @@ Inode * Inode :: get_root(){
 path Inode :: get_full_path(){
 	try {
 		if ((parent_ == NULL) || (parent_==this))
-			return (options.get_output_dir()/path(name_,native));
+			return (options.get_output_dir()/path(name_));
 		else
-			return (parent_->get_full_path()/path(name_,native));
+			return (parent_->get_full_path()/path(name_));
 	}catch (filesystem_error e){
 		cerr<<e.what()<<endl;
 		stringstream ss;
