@@ -1,0 +1,43 @@
+#!/bin/bash
+
+SCRIPTNAME="$(basename $0)"
+
+logdir="."
+
+#set -x
+
+helpmsg="Usage: $SCRIPTNAME [--logdir \"jfsrec's logdir\"] INODES ...
+Options:
+    -l, --logdir DIR    logdir used by jfsrec (default: $logdir)
+    -h, --help          this help
+    -V, --version       version"
+
+for ((i=0;$#;)) ; do
+	case "$1" in
+		-l|--logdir) shift ; logdir="$1" ;;
+		-h|--h*) echo "$helpmsg" ; exit ;;
+		-V|--vers*) echo "$SCRIPTNAME unknow version" ; exit ;;
+		--) shift ; break ;;
+		-*) echo -e "Error: Unrecognized option $1\n$helpmsg" >&2 ; exit 2 ;;
+		*) break ;;
+	esac
+	shift
+done
+
+! [ -f "$logdir/inoscan.txt" ] && echo "$SCRIPTNAME: Error: $logdir/inoscan.txt: No such file" >&2 && exit 3 
+
+
+for inode in "$@" ; do
+	! grep "^$inode$" "$logdir/inoscan.txt" > /dev/null && echo "inode $inode not found in inoscan.txt" >&2 && continue
+	echo "Removing $inode from:"
+	grep -n "^$inode$" "$logdir"/*.txt | tee -a "$logdir/$SCRIPTNAME.log" | cut -d':' -f 1
+	if ((PIPESTATUS==0)) ; then
+		sed -i '/^'"$inode"'$/d' "$logdir"/*.txt
+	fi
+done
+
+echo >> "$logdir/$SCRIPTNAME.log"
+
+#sed -i.bak '/^'"$1"'$/d' $logdir/post-remove_* $logdir/post-extentscan.txt
+#echo "$1" | sort -o $logdir/invalidated.txt - $logdir/invalidated.txt
+

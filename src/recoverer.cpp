@@ -105,10 +105,11 @@ void Recoverer::recover_dirtree(){
 	cout << "\n\nCreating directory structure"<<endl;
 	boost::filesystem::path p(options.get_output_dir());
 	boost::filesystem::create_directory(p);
-	progress_display pd(inovec_.size());
+	//progress_display pd(inovec_.size());
 	for (uint32_t i=0;i<inovec_.size();++i){
+		cout << "\r\t"<<inovec_[i].get_byte_offset()<<" - "<<(double)i<<"/"<<(double)inovec_.size()<<" -> "<<((double)i/(double)inovec_.size())*100.0<<"% "<<flush;
 		inovec_[i].create_dir();
-		++pd;
+	//	++pd;
 	}
 }
 
@@ -188,9 +189,9 @@ void Recoverer :: find_directory_parents(){
 					}
 					inovec_.add_inode(v[newest_j]);
 					c.set_parent(v[newest_j]);
-// 					cout << "Validated "<<v[newest_j]->get_di_number()<<" because it is parent to "<<c.get_di_number()<<endl;
+//					cout << "Validated "<<v[newest_j]->get_di_number()<<" ("<< v[newest_j]->get_byte_offset() <<") because it is parent to "<<c.get_di_number()<<endl;
 				}	else {
-// 					cerr << c.get_di_number() << " requested "<< c.get_parent_di_number() << " but it was not found."<<endl;
+//					cerr << c.get_di_number() <<" ("<< c.get_byte_offset() <<") requested "<< c.get_parent_di_number() << " but it was not found."<<endl;
 				}
 			}
 		}
@@ -202,9 +203,9 @@ void Recoverer :: find_file_parents_and_names(){
 
  	cout <<endl<< "Searching for file parents and names"<<endl;
 	
-	progress_display pd(inovec_.size());
+//	progress_display pd(inovec_.size());
 	for (uint32_t i=0;i<inovec_.size();++i){
-// 		cout << "\r"<<((double)i/(double)inovec_.size())*100.0<<"%"<<flush;
+		cout << "\r\t"<<inovec_[i].get_byte_offset()<<" - "<<(double)i<<"/"<<(double)inovec_.size()<<" -> "<<((double)i/(double)inovec_.size())*100.0<<"% "<<flush;
 		vector<InodeName> in = inovec_[i].extract_inode_names();
 		for (uint32_t j=0;j<in.size();++j){
 			Inode* ino = inovec_.get_by_di_number(in[j].di_number_);
@@ -241,7 +242,7 @@ void Recoverer :: find_file_parents_and_names(){
 			}
 // 			cout << in[j].di_number_<<"\t"<<in[j].name_<<endl;
 		}
-		++pd;
+		//++pd;
 	}
 	for (uint32_t i=0;i<inovec_.size();++i){
 		if ( (inovec_[i].get_name().empty()) || 
@@ -268,7 +269,7 @@ void Recoverer :: find_roots(){
 		if (inovec_[i].has_parent()){
 			Inode * p = inovec_[i].get_root() ;
 			r.push_back(p);
-// 			cout << "root of "<<inovec_[i].get_di_number()<< "is "<<p->get_di_number()<<endl;
+//			cout << inovec_[i].get_byte_offset() <<" root of "<<inovec_[i].get_di_number()<<" is "<<p->get_di_number()<<endl<<flush;
 		}else{
 			r.push_back(&inovec_[i]);
 		}

@@ -12,3 +12,6 @@ noinst_HEADERS = inode.h inodescanner.h options.h inodevector.h fileinode.h \
 	dirinode.h device.h inodefactory.h recoverer.h unicode_to_utf8.h \
 	unallocatedinode.h symlinkinode.h specialinode.h
 jfsrec_LDADD = -lboost_regex -lboost_program_options -lboost_filesystem -lboost_system
+
+# the script to remove inode which make jfsrec crash (segfault)
+dist_bin_SCRIPTS = jfsrec_rm_logged_inode
