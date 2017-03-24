@@ -58,10 +58,17 @@ void Inode :: recover(){
 }
 
 Inode * Inode :: get_root(){
-	if ((parent_ == NULL) || (parent_==this))
-		return this;
-	else
-		return parent_->get_root();
+	vector<Inode*> p;
+	Inode * r=this;
+
+	p.push_back(r);
+	while ( r->parent_ && find(p.begin(), p.end(), r->parent_) == p.end() ) {
+		//cout << r << " <- "<< r->parent_ << endl;
+		//usleep(100*1000);
+		r=r->parent_;
+		p.push_back(r);
+	}
+	return r;
 }
 
 path Inode :: get_full_path(){
